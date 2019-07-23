@@ -1,13 +1,2 @@
-<div id="menu">
-  <button mat-button [routerLink]="[ '/login' ]">
-    <mat-icon>lock_open</mat-icon>Login
-  </button>
-  <button mat-button [routerLink]="[ '/register' ]">
-    <mat-icon>person_add</mat-icon>Register
-  </button>
-  <button mat-button [routerLink]="[ '/chatrooms' ]">
-    <mat-icon>chat</mat-icon>Chat rooms
-  </button>
-</div>
-<router-outlet>
-</router-outlet>
+<app-menu></app-menu>
+<router-outlet></router-outlet>
