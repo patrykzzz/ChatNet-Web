@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { FormControl, FormGroup, AbstractControl } from '@angular/forms';
 import { Validators } from "@angular/forms";
+import { NotificationService } from 'src/app/services/notification.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +25,8 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls.password;
   }
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService, private notificationService: NotificationService,
+    private storageService: StorageService) { }
 
   ngOnInit() {
   }
@@ -33,12 +36,9 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.loginService.getTokenForUser(this.email.value, this.password.value)
-      .subscribe(token => this.saveTokenInLocalStorage(token), error => {
-        console.log(error)
+      .subscribe(token => this.storageService.saveAccessToken(token), error => {
+        this.notificationService.showMessage('Something went wrong...');
       });
   }
 
-  saveTokenInLocalStorage(token: string) {
-    localStorage.setItem("bearer_token", token);
-  }
 }
