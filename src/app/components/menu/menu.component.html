@@ -1,11 +1,24 @@
-<div id="menu">
-    <button mat-button [routerLink]="[ '/login' ]">
-        <mat-icon>lock_open</mat-icon>Login
-    </button>
-    <button mat-button [routerLink]="[ '/register' ]">
-        <mat-icon>person_add</mat-icon>Register
-    </button>
-    <button mat-button [routerLink]="[ '/chatrooms' ]">
-        <mat-icon>chat</mat-icon>Chat rooms
-    </button>
+<div id="menu" class="container-flex">
+    <div class="row vw-100">
+        <div class="col-xs-1" *ngIf="!isLoggedIn">
+            <button mat-button [routerLink]="[ '/login' ]">
+                <mat-icon>lock_open</mat-icon>Login
+            </button>
+        </div>
+        <div class="col-xs-1" *ngIf="!isLoggedIn">
+            <button mat-button [routerLink]="[ '/register' ]">
+                <mat-icon>person_add</mat-icon>Register
+            </button>
+        </div>
+        <div class="col-xs-1">
+            <button mat-button [routerLink]="[ '/chatrooms' ]">
+                <mat-icon>chat</mat-icon>Chat rooms
+            </button>
+        </div>
+        <div class="col-xs-1 ml-auto" *ngIf="isLoggedIn">
+            <button mat-button (click)="logout()">
+                <mat-icon>cancel</mat-icon>Logout
+            </button>
+        </div>
+    </div>
 </div>

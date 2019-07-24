@@ -4,6 +4,8 @@ import { FormControl, FormGroup, AbstractControl } from '@angular/forms';
 import { Validators } from "@angular/forms";
 import { NotificationService } from 'src/app/services/notification.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { Router } from '@angular/router';
+import { UserLoginModel } from 'src/app/models/user-login-model';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +28,7 @@ export class LoginComponent implements OnInit {
   }
 
   constructor(private loginService: LoginService, private notificationService: NotificationService,
-    private storageService: StorageService) { }
+    private storageService: StorageService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -35,8 +37,18 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    this.loginService.getTokenForUser(this.email.value, this.password.value)
-      .subscribe(token => this.storageService.saveAccessToken(token), error => {
+
+    let model: UserLoginModel = {
+      email: this.email.value,
+      password: this.password.value
+    }
+
+    this.loginService.getTokenForUser(model)
+      .subscribe(token => {
+        this.storageService.saveAccessToken(token);
+        this.notificationService.showMessage('Logged in!');
+        this.router.navigate(['chatrooms']);
+      }, error => {
         this.notificationService.showMessage('Something went wrong...');
       });
   }

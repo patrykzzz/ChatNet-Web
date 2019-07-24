@@ -1,1 +1,35 @@
-<p>register works!</p>
+<div class="container h-75">
+    <div class="row justify-content-center align-items-center h-100">
+        <form [formGroup]="registrationForm" (ngSubmit)="register()">
+            <div class="col-12">
+                <mat-form-field>
+                    <input id="email" formControlName="email" matInput type="email" placeholder="e-mail">
+                    <mat-error *ngIf="email.invalid">Provided e-mail is not valid.</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-12">
+                <mat-form-field>
+                    <input id="username" formControlName="username" matInput type="text" placeholder="username">
+                </mat-form-field>
+            </div>
+            <div class="col-12">
+                <mat-form-field>
+                    <input id="password" autocomplete="new-password"  formControlName="password" matInput type="password" placeholder="password">
+                </mat-form-field>
+            </div>
+            <div class="col-12">
+                <mat-form-field>
+                    <input id="firstName" formControlName="firstName" matInput type="text" placeholder="first name">
+                </mat-form-field>
+            </div>
+            <div class="col-12">
+                <mat-form-field>
+                    <input id="lastName" formControlName="lastName" matInput type="text" placeholder="last name">
+                </mat-form-field>
+            </div>
+            <div class="col-12 text-center">
+                <button mat-raised-button [disabled]="!registrationForm.valid" type="submit">Register!</button>
+            </div>
+        </form>
+    </div>
+</div>

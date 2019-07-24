@@ -15,4 +15,8 @@ export class StorageService {
     return localStorage.getItem('bearer_token');
   }
 
+  removeAccessToken(): void {
+    localStorage.removeItem('bearer_token');
+  }
+
 }
