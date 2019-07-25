@@ -1,1 +1,39 @@
-<p>chat-room-list works!</p>
+<div class="container-flex h-100">
+    <div class="row h-100">
+        <div class="col-8 border-right">
+            <div class="row h-100">
+                <div class="col">
+                    <div class="row h-75">
+                        <div class="col border-bottom">
+                            <div class="row mb-1" [ngClass]="{'justify-content-end': message.own}" *ngFor="let message of messages">
+                                <div class="col-6 pl-0">
+                                    <mat-card>
+                                        <mat-card-title>{{message.sender}}</mat-card-title>
+                                        <mat-card-content>{{message.content}}</mat-card-content>
+                                        <mat-card-subtitle>{{message.time}}</mat-card-subtitle>
+                                    </mat-card>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row h-25" [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+                        <div class="col-11 pr-0">
+                            <textarea rows="5" class="w-100 h-100" matInput formControlName="message"
+                                placeholder="Type a message..."></textarea>
+                        </div>
+                        <div class="col-1 p-0">
+                            <button class="w-100 h-100" mat-raised-button type="submit">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <mat-action-list>
+                <button mat-list-item *ngFor="let chatroom of chatrooms" (click)="loadChatroom(chatroom)">
+                    {{chatroom.name}}
+                </button>
+            </mat-action-list>
+        </div>
+    </div>
+</div>
