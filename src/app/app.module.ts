@@ -13,6 +13,7 @@ import { ChatRoomListComponent } from './components/chat-room-list/chat-room-lis
 import { RegisterComponent } from './components/register/register.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { AppendTokenInterceptor } from './interceptors/append-token-interceptor';
+import { CreateChatroomComponent } from './components/dialogs/create-chatroom/create-chatroom.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AppendTokenInterceptor } from './interceptors/append-token-interceptor'
     LoginComponent,
     ChatRoomListComponent,
     RegisterComponent,
-    MenuComponent
+    MenuComponent,
+    CreateChatroomComponent
   ],
   imports: [
     BrowserModule,
@@ -35,6 +37,7 @@ import { AppendTokenInterceptor } from './interceptors/append-token-interceptor'
     useClass: AppendTokenInterceptor,
     multi: true
   }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [CreateChatroomComponent]
 })
 export class AppModule { }

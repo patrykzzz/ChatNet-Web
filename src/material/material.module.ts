@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatButtonModule, MatIconModule, MatInputModule, MatSnackBarModule, MatCardModule, MatListModule } from "@angular/material";
+import { MatButtonModule, MatIconModule, MatInputModule, MatSnackBarModule, MatCardModule, MatListModule, MatDialogModule } from "@angular/material";
 
 
 @NgModule({
@@ -10,7 +10,8 @@ import { MatButtonModule, MatIconModule, MatInputModule, MatSnackBarModule, MatC
     MatInputModule,
     MatSnackBarModule,
     MatCardModule,
-    MatListModule
+    MatListModule,
+    MatDialogModule
   ],
   exports: [
     MatButtonModule,
@@ -18,7 +19,8 @@ import { MatButtonModule, MatIconModule, MatInputModule, MatSnackBarModule, MatC
     MatInputModule,
     MatSnackBarModule,
     MatCardModule,
-    MatListModule
+    MatListModule,
+    MatDialogModule
   ]
 })
 export class MaterialModule { }

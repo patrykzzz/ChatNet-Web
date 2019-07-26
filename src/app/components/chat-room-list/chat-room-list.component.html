@@ -30,11 +30,22 @@
             </div>
         </div>
         <div class="col-4">
-            <mat-action-list>
-                <button mat-list-item *ngFor="let chatroom of chatrooms" (click)="loadChatroom(chatroom)">
-                    {{chatroom.name}}
-                </button>
-            </mat-action-list>
+            <div class="row">
+                <div class="col">
+                    <mat-action-list>
+                        <button mat-list-item *ngFor="let chatroom of chatrooms" (click)="loadChatroom(chatroom)">
+                            {{chatroom.name}}
+                        </button>
+                    </mat-action-list>
+                </div>
+            </div>
+            <div class="row pt-1 justify-content-center text-center">
+                <div class="col-6">
+                    <button class="w-50" mat-raised-button (click)="createChatRoom()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
