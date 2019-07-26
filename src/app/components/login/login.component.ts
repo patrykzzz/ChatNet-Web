@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
 
     this.loginService.getTokenForUser(model)
       .subscribe(token => {
-        this.storageService.saveAccessToken(token);
+        this.storageService.saveAccessToken(token.token);
         this.notificationService.showMessage('Logged in!');
         this.router.navigate(['chatrooms']);
       }, error => {

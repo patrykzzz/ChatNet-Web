@@ -5,8 +5,9 @@
                 <div class="col">
                     <div class="row h-75">
                         <div class="col border-bottom">
-                            <div class="row mb-1" [ngClass]="{'justify-content-end': message.own}" *ngFor="let message of messages">
-                                <div class="col-6 pl-0">
+                            <div class="row pl-1 pl-0 mb-1" [ngClass]="{'justify-content-end': message.own}"
+                                *ngFor="let message of messages">
+                                <div class="col-6">
                                     <mat-card>
                                         <mat-card-title>{{message.sender}}</mat-card-title>
                                         <mat-card-content>{{message.content}}</mat-card-content>
@@ -16,13 +17,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row h-25" [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+                    <div class="row h-25">
                         <div class="col-11 pr-0">
-                            <textarea rows="5" class="w-100 h-100" matInput formControlName="message"
+                            <textarea rows="5" class="w-100 h-100 border-0" matInput
                                 placeholder="Type a message..."></textarea>
                         </div>
                         <div class="col-1 p-0">
-                            <button class="w-100 h-100" mat-raised-button type="submit">Send</button>
+                            <button class="w-100 h-100" mat-raised-button (click)="sendMessage()">Send</button>
                         </div>
                     </div>
                 </div>

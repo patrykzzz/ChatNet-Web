@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { MaterialModule } from '../material/material.module';
 
@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ChatRoomListComponent } from './components/chat-room-list/chat-room-list.component';
 import { RegisterComponent } from './components/register/register.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { AppendTokenInterceptor } from './interceptors/append-token-interceptor';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,11 @@ import { MenuComponent } from './components/menu/menu.component';
     MaterialModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AppendTokenInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

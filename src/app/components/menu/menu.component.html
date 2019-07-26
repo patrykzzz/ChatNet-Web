@@ -11,7 +11,7 @@
             </button>
         </div>
         <div class="col-xs-1">
-            <button mat-button [routerLink]="[ '/chatrooms' ]">
+            <button mat-button *ngIf="isLoggedIn" [routerLink]="[ '/chatrooms' ]">
                 <mat-icon>chat</mat-icon>Chat rooms
             </button>
         </div>
