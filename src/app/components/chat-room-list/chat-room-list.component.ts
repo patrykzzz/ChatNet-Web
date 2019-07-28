@@ -14,19 +14,26 @@ import { FormGroup } from '@angular/forms';
 })
 export class ChatRoomListComponent implements OnInit {
 
-  connection = new signalR.HubConnectionBuilder()
-    .withUrl('https://localhost:5002/chatroomhub')
-    .build();
-
   constructor(private chatroomService: ChatroomService, private notificationService: NotificationService,
     public dialog: MatDialog) { }
 
   chatrooms: ChatRoom[];
+  chatRoomHubConnection: signalR.HubConnection;
+  message: string;
 
   ngOnInit() {
-    this.connection.start().catch(error => console.log(error));
-    this.connection.on('chatroomCreated', (chatRoomId: string, chatRoomName: string) => {
-      this.chatrooms = this.chatrooms.concat({ id: chatRoomId, name: chatRoomName });
+    this.chatRoomHubConnection = new signalR.HubConnectionBuilder()
+      .withUrl('https://localhost:5002/chatroomhub')
+      .build();
+
+    this.chatRoomHubConnection.start()
+      .catch(error => {
+        this.notificationService.showMessage("Can't connect with SignalR");
+      });
+      
+    this.chatRoomHubConnection.on('ChatRoomCreated', (chatRoom: ChatRoom) => {
+      this.chatrooms = this.chatrooms.concat(chatRoom)
+        .sort(c => c.createdOnUtc.valueOf());
     })
 
     this.chatroomService.getAll()
@@ -39,7 +46,7 @@ export class ChatRoomListComponent implements OnInit {
       if (form.value) {
         let chatRoom: ChatRoom = Object.assign({}, form.value);
         this.chatroomService.create(chatRoom).subscribe(() => {
-          this.connection.send('NewChatRoomCreated', chatRoom);
+          this.notificationService.showMessage('Chat room created.');
         }, error => this.notificationService.showMessage('Error when creating a chat room.'));
       }
     });
@@ -49,7 +56,7 @@ export class ChatRoomListComponent implements OnInit {
     this.chatroomService.getAll()
       .subscribe(() => {
         this.notificationService.showMessage('Room created successfully');
-        this.connection.send('NewChatRoomCreated', 'test');
+        this.chatRoomHubConnection.send('NewChatRoomCreated', 'test');
       },
         error => console.log(error));
   }
