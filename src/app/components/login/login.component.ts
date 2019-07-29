@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   }
 
   constructor(private loginService: LoginService, private notificationService: NotificationService,
-    private storageService: StorageService, private router: Router) { }
+              private storageService: StorageService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -38,10 +38,10 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    let model: UserLoginModel = {
+    const model: UserLoginModel = {
       email: this.email.value,
       password: this.password.value
-    }
+    };
 
     this.loginService.getTokenForUser(model)
       .subscribe(token => {
