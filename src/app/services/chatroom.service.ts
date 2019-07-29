@@ -10,11 +10,17 @@ export class ChatroomService {
 
   constructor(private http: HttpClient) { }
 
+  private apiRoot = 'https://localhost:5002/api/chatrooms';
+
   getAll(): Observable<ChatRoom[]> {
-    return this.http.get<ChatRoom[]>('https://localhost:5002/api/chatrooms');
+    return this.http.get<ChatRoom[]>(this.apiRoot);
   }
 
   create(model: ChatRoom): Observable<void> {
-    return this.http.post<void>('https://localhost:5002/api/chatrooms', model);
+    return this.http.post<void>(this.apiRoot, model);
+  }
+
+  getChatRoom(chatRoomId: string): Observable<ChatRoom> {
+    return this.http.get<ChatRoom>(`${this.apiRoot}/${chatRoomId}`);
   }
 }

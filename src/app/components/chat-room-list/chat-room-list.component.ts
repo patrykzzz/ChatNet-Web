@@ -6,6 +6,7 @@ import { ChatRoom } from 'src/app/models/chat-room';
 import { MatDialog } from '@angular/material';
 import { CreateChatroomComponent } from '../dialogs/create-chatroom/create-chatroom.component';
 import { FormGroup } from '@angular/forms';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-chat-room-list',
@@ -15,23 +16,26 @@ import { FormGroup } from '@angular/forms';
 export class ChatRoomListComponent implements OnInit {
 
   constructor(private chatroomService: ChatroomService, private notificationService: NotificationService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog, private storageService: StorageService) { }
 
   chatrooms: ChatRoom[];
-  chatRoomHubConnection: signalR.HubConnection;
+  chatroomHubConnection: signalR.HubConnection;
   message: string;
+  currentChatroom: ChatRoom;
 
   ngOnInit() {
-    this.chatRoomHubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:5002/chatroomhub')
+    this.chatroomHubConnection = new signalR.HubConnectionBuilder()
+      .withUrl('https://localhost:5002/chatroomhub', {
+        accessTokenFactory: () => this.storageService.getAccessToken()
+      })
       .build();
 
-    this.chatRoomHubConnection.start()
+    this.chatroomHubConnection.start()
       .catch(error => {
-        this.notificationService.showMessage("Can't connect with SignalR");
+        this.notificationService.showMessage('Can\'t connect with SignalR');
       });
-      
-    this.chatRoomHubConnection.on('ChatRoomCreated', (chatRoom: ChatRoom) => {
+
+    this.chatroomHubConnection.on('ChatRoomCreated', (chatRoom: ChatRoom) => {
       this.chatrooms = this.chatrooms.concat(chatRoom)
         .sort(c => c.createdOnUtc.valueOf());
     })
@@ -44,7 +48,7 @@ export class ChatRoomListComponent implements OnInit {
     const dialogRef = this.dialog.open(CreateChatroomComponent);
     dialogRef.afterClosed().subscribe((form: FormGroup) => {
       if (form.value) {
-        let chatRoom: ChatRoom = Object.assign({}, form.value);
+        const chatRoom: ChatRoom = Object.assign({}, form.value);
         this.chatroomService.create(chatRoom).subscribe(() => {
           this.notificationService.showMessage('Chat room created.');
         }, error => this.notificationService.showMessage('Error when creating a chat room.'));
@@ -53,12 +57,13 @@ export class ChatRoomListComponent implements OnInit {
   }
 
   sendMessage() {
-    this.chatroomService.getAll()
-      .subscribe(() => {
-        this.notificationService.showMessage('Room created successfully');
-        this.chatRoomHubConnection.send('NewChatRoomCreated', 'test');
-      },
-        error => console.log(error));
+  }
+
+  loadChatroom(chatroom: ChatRoom) {
+    this.chatroomService.getChatRoom(chatroom.id).subscribe(chatroom => {
+      this.currentChatroom = chatroom;
+      this.chatroomHubConnection.send('AddToChatRoom', chatroom.id);
+    });
   }
 
 }

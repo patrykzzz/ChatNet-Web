@@ -5,14 +5,16 @@
                 <div class="col">
                     <div class="row h-75">
                         <div class="col border-bottom">
-                            <div class="row pl-1 pl-0 mb-1" [ngClass]="{'justify-content-end': message.own}"
-                                *ngFor="let message of messages">
-                                <div class="col-6">
-                                    <mat-card>
-                                        <mat-card-title>{{message.sender}}</mat-card-title>
-                                        <mat-card-content>{{message.content}}</mat-card-content>
-                                        <mat-card-subtitle>{{message.time}}</mat-card-subtitle>
-                                    </mat-card>
+                            <div *ngIf="currentChatroom">
+                                <div class="row pl-1 pl-0 mb-1" [ngClass]="{'justify-content-end': message.own}"
+                                    *ngFor="let message of currentChatroom.messages">
+                                    <div class="col-6">
+                                        <mat-card>
+                                            <mat-card-title>{{message.sender.username}}</mat-card-title>
+                                            <mat-card-content>{{message.content}}</mat-card-content>
+                                            <mat-card-subtitle>{{message.sentOnUtc}}</mat-card-subtitle>
+                                        </mat-card>
+                                    </div>
                                 </div>
                             </div>
                         </div>

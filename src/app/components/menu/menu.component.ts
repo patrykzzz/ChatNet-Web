@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from 'src/app/services/storage.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -9,13 +10,15 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class MenuComponent implements OnInit {
 
-  constructor(private storageService: StorageService, private notificationService: NotificationService) { }
+  constructor(private storageService: StorageService, private notificationService: NotificationService,
+    private router: Router) { }
 
   ngOnInit() {
   }
 
   logout() {
     this.storageService.removeAccessToken();
+    this.router.navigate(['login']);
     this.notificationService.showMessage('Logged out!');
   }
 
