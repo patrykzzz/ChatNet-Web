@@ -1,12 +1,13 @@
 <div class="container-flex h-100">
     <div class="row h-100">
         <div class="col-8 border-right">
-            <div class="row h-100">
+            <div class="row h-100" *ngIf="currentChatroom">
                 <div class="col">
-                    <div class="row h-75">
+                    <div class="row h-75" id="chatContent">
                         <div class="col border-bottom">
-                            <div *ngIf="currentChatroom">
-                                <div class="row pl-1 pl-0 mb-1" [ngClass]="{'justify-content-end': message.own}"
+                            <div>
+                                <div class="row pl-1 pl-0 mb-1"
+                                    [ngClass]="{'justify-content-end': isCurrentUserMessage(message)}"
                                     *ngFor="let message of currentChatroom.messages">
                                     <div class="col-6">
                                         <mat-card>

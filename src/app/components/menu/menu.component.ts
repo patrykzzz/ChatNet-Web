@@ -17,7 +17,7 @@ export class MenuComponent implements OnInit {
   }
 
   logout() {
-    this.storageService.removeAccessToken();
+    this.storageService.removeUserLoginInfo();
     this.router.navigate(['login']);
     this.notificationService.showMessage('Logged out!');
   }

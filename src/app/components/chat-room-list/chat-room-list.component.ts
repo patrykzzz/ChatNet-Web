@@ -18,12 +18,13 @@ import { MessageService } from 'src/app/services/message.service';
 export class ChatRoomListComponent implements OnInit {
 
   constructor(private chatroomService: ChatroomService, private notificationService: NotificationService,
-    public dialog: MatDialog, private storageService: StorageService, private messageService: MessageService) { }
+              public dialog: MatDialog, private storageService: StorageService, private messageService: MessageService) { }
 
   chatrooms: ChatRoom[];
   chatroomHubConnection: signalR.HubConnection;
   message: string;
   currentChatroom: ChatRoom;
+  username: string;
 
   ngOnInit() {
     this.chatroomHubConnection = new signalR.HubConnectionBuilder()
@@ -46,10 +47,13 @@ export class ChatRoomListComponent implements OnInit {
       if (this.currentChatroom) {
         this.currentChatroom.messages = this.currentChatroom.messages.concat(message);
       }
+
     });
 
     this.chatroomService.getAll()
       .subscribe(data => this.chatrooms = data, error => this.notificationService.showMessage('Unable to get chatrooms.'));
+
+    this.username = this.storageService.getUsername();
   }
 
   createChatRoom() {
@@ -77,4 +81,7 @@ export class ChatRoomListComponent implements OnInit {
     });
   }
 
+  isCurrentUserMessage(message: Message) {
+    return this.username === message.sender.username;
+  }
 }
